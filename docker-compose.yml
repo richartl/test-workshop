@@ -1,0 +1,26 @@
+version: '3'
+services:
+  db:
+    image: mysql:5
+    container_name: 'workshop_mysql'
+    hostname: 'workshop_mysql'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'test'
+      MYSQL_DATABASE: 'workshop'
+    volumes:
+      - db_data:/var/lib/mysql
+  wordpress:
+    image: wordpress
+    container_name: 'workshop_wordpress'
+    hostname: 'workshop_wordpress'
+    environment:
+      WORDPRESS_DB_NAME: 'workshop'
+      WORDPRESS_DB_PASSWORD: 'test'
+      WORDPRESS_TABLE_PREFIX: 'workshop'
+      WORDPRESS_DB_HOST: db
+    ports:
+      - 3000:80
+    volumes:
+      - ./src:/var/www/html/wp-content
+volumes:
+  db_data:
